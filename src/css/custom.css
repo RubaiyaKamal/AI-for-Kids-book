@@ -1,0 +1,271 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  /* Primary color - Goldenrod/Mustard Yellow */
+  --ifm-color-primary: #D4A548;
+  --ifm-color-primary-dark: #C49640;
+  --ifm-color-primary-darker: #B98D3C;
+  --ifm-color-primary-darkest: #9A7532;
+  --ifm-color-primary-light: #DCB05E;
+  --ifm-color-primary-lighter: #E0B565;
+  --ifm-color-primary-lightest: #E8C17D;
+
+  /* Text colors */
+  --ifm-font-color-base: #3D3028;
+  --ifm-heading-color: #3D3028;
+
+  /* Background colors */
+  --ifm-background-color: #FFFBF5;
+  --ifm-background-surface-color: #F5EDD8;
+
+  /* Code block colors */
+  --ifm-code-background: #F5EDD8;
+  --ifm-code-color: #3D3028;
+
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(212, 165, 72, 0.1);
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #E0B55E;
+  --ifm-color-primary-dark: #D4A548;
+  --ifm-color-primary-darker: #C49640;
+  --ifm-color-primary-darkest: #B98D3C;
+  --ifm-color-primary-light: #E8C17D;
+  --ifm-color-primary-lighter: #EDCB8F;
+  --ifm-color-primary-lightest: #F2D6A1;
+
+  --ifm-background-color: #2A2218;
+  --ifm-background-surface-color: #3D3028;
+  --ifm-font-color-base: #F5EDD8;
+  --ifm-heading-color: #E8C17D;
+
+  --docusaurus-highlighted-code-line-bg: rgba(212, 165, 72, 0.2);
+}
+
+/* Custom styles for the textbook */
+.markdown h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: #3D3028;
+  border-bottom: 3px solid #D4A548;
+  padding-bottom: 0.5rem;
+}
+
+.markdown h2 {
+  font-size: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #3D3028;
+  border-bottom: 2px solid #4DB8A3;
+  padding-bottom: 0.5rem;
+}
+
+.markdown h3 {
+  font-size: 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #3D3028;
+}
+
+/* Code blocks */
+.markdown pre {
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  background-color: #F5EDD8 !important;
+  border: 2px solid #D4A548;
+  box-shadow: 0 2px 8px rgba(61, 48, 40, 0.1);
+}
+
+.markdown code {
+  background-color: #F5EDD8;
+  color: #3D3028;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.markdown pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+/* Admonitions (callouts) */
+.admonition {
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  border-left: 4px solid #4DB8A3;
+  background-color: #F5EDD8;
+}
+
+.admonition-heading {
+  color: #3D3028;
+  font-weight: 600;
+}
+
+/* Learning objectives box */
+.learning-objectives {
+  background-color: #F5EDD8;
+  border-left: 4px solid #D4A548;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 4px;
+}
+
+[data-theme='dark'] .learning-objectives {
+  background-color: rgba(212, 165, 72, 0.1);
+}
+
+/* Hardware requirements table */
+.hardware-table {
+  margin: 1.5rem 0;
+}
+
+.hardware-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.hardware-table th {
+  background-color: #D4A548;
+  color: #3D3028;
+  padding: 0.75rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+.hardware-table td {
+  padding: 0.75rem;
+  border-bottom: 3px solid #D4A548;
+  padding-bottom: 0.5rem;
+}
+
+.markdown h2 {
+  font-size: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #3D3028;
+  border-bottom: 2px solid #4DB8A3;
+  padding-bottom: 0.5rem;
+}
+
+.markdown h3 {
+  font-size: 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #3D3028;
+}
+
+/* Code blocks */
+.markdown pre {
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  background-color: #F5EDD8 !important;
+  border: 2px solid #D4A548;
+  box-shadow: 0 2px 8px rgba(61, 48, 40, 0.1);
+}
+
+.markdown code {
+  background-color: #F5EDD8;
+  color: #3D3028;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.markdown pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+/* Admonitions (callouts) */
+.admonition {
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  border-left: 4px solid #4DB8A3;
+  background-color: #F5EDD8;
+}
+
+.admonition-heading {
+  color: #3D3028;
+  font-weight: 600;
+}
+
+/* Learning objectives box */
+.learning-objectives {
+  background-color: #F5EDD8;
+  border-left: 4px solid #D4A548;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 4px;
+}
+
+[data-theme='dark'] .learning-objectives {
+  background-color: rgba(212, 165, 72, 0.1);
+}
+
+/* Hardware requirements table */
+.hardware-table {
+  margin: 1.5rem 0;
+}
+
+.hardware-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.hardware-table th {
+  background-color: #D4A548;
+  color: #3D3028;
+  padding: 0.75rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+.hardware-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #E8DCC4;
+}
+
+/* Example boxes */
+.markdown blockquote {
+  border-left: 4px solid #4DB8A3;
+  background-color: #F5EDD8;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 4px;
+}
+
+.markdown blockquote p {
+  margin: 0;
+  color: #3D3028;
+}
+
+/* Footer styling */
+.footer {
+  background-color: #3D3028;
+  color: #F5EDD8;
+}
+
+.footer__link-item {
+  color: #F5EDD8;
+}
+
+.footer__link-item:hover {
+  color: #D4A548;
+  text-decoration: none;
+}
+
+.footer__title {
+  color: #D4A548;
+}
+
+.footer__copyright {
+  color: #E8DCC4;
+}

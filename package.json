@@ -1,0 +1,10 @@
+{
+  "name": "book-for-project-hackathon",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "cd auth-app && npm run dev",
+    "build": "cd auth-app && npm install && npm run build",
+    "start": "cd auth-app && npm start",
+    "install:all": "cd auth-app && npm install && cd ../docusaurus && npm install"
+  }
+}

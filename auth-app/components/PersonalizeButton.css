@@ -1,0 +1,210 @@
+.personalize-container {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.personalize-login-prompt {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: #f3f4f6;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.personalize-login-prompt p {
+  margin: 0;
+  color: #4b5563;
+}
+
+.personalize-login-prompt a {
+  color: #667eea;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.personalize-login-prompt a:hover {
+  text-decoration: underline;
+}
+
+.error-message {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: #fee2e2;
+  color: #dc2626;
+  border-radius: 6px;
+  font-size: 0.875rem;
+}
+
+.personalize-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: white;
+  color: #667eea;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.personalize-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.personalize-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.personalize-button .icon {
+  width: 24px;
+  height: 24px;
+}
+
+.spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(102, 126, 234, 0.3);
+  border-radius: 50%;
+  border-top-color: #667eea;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.personalized-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+}
+
+.banner-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #10b981;
+  font-weight: 600;
+}
+
+.check-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.reset-button {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  color: #667eea;
+  border: 2px solid #667eea;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.reset-button:hover {
+  background: #667eea;
+  color: white;
+}
+
+/* Personalized content styling */
+.personalized-content {
+  position: relative;
+  padding-left: 1rem;
+  border-left: 4px solid #667eea;
+  background: linear-gradient(
+    to right,
+    rgba(102, 126, 234, 0.05),
+    transparent
+  );
+}
+
+.profile-info {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+
+.profile-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #f3f4f6;
+  border-radius: 20px;
+  font-size: 0.875rem;
+}
+
+.badge-label {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.badge-value {
+  color: #1f2937;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .personalize-container {
+    margin: 1rem 0;
+    padding: 1rem;
+  }
+
+  .personalized-banner {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .reset-button {
+    width: 100%;
+  }
+}
+
+.button-group {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+    margin-bottom: 20px;
+}
+
+.translate-button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.translate-button:hover {
+    background-color: #45a049;
+}
