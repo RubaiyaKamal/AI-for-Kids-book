@@ -7,6 +7,7 @@ import Chatbot from "@/components/Chatbot";
 import TranslatorButton from "@/components/TranslatorButton";
 import UserMenu from "@/components/UserMenu";
 import CompleteChapterButton from "@/components/CompleteChapterButton";
+import QuizInterface from "@/components/QuizInterface";
 import { authClient } from "@/lib/auth-client";
 import { useProgressTracking } from "@/hooks/useProgressTracking";
 import { bookNavigation } from "@/lib/bookData";
@@ -54,9 +55,14 @@ export default function BookReaderPage() {
     const [translationError, setTranslationError] = useState("");
     const [userExperienceLevel, setUserExperienceLevel] = useState<string | null>(null);
     const [isAutoPersonalized, setIsAutoPersonalized] = useState(false);
+    const [quizData, setQuizData] = useState<any>(null);
+    const [loadingQuiz, setLoadingQuiz] = useState(false);
 
     const { data: session } = authClient.useSession();
     const allChapters = getAllChapterIds();
+
+    // Check if current chapter is a quiz
+    const isQuizChapter = activeId.includes('quiz');
 
     // Auto-track time spent reading (every 30 seconds)
     useProgressTracking(activeId, !!session?.user);
@@ -193,30 +199,54 @@ export default function BookReaderPage() {
         async function loadContent() {
             setLoading(true);
             setIsPersonalized(false);
-            try {
-                const response = await fetch(`/api/book-content?id=${activeId}`);
-                if (response.ok) {
-                    const data = await response.json();
-                    setCurrentContent(data);
-                    setOriginalContent(data.content);
-                } else {
+            setQuizData(null);
+
+            // If it's a quiz chapter, fetch quiz data
+            if (isQuizChapter && session?.user) {
+                setLoadingQuiz(true);
+                try {
+                    const response = await fetch(`/api/quiz?chapter_id=${activeId}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        setQuizData(data);
+                        setCurrentContent({
+                            title: data.title || "Quiz",
+                            content: "",
+                            sections: [],
+                        });
+                    }
+                } catch (error) {
+                    console.error('Failed to load quiz:', error);
+                } finally {
+                    setLoadingQuiz(false);
+                }
+            } else {
+                // Load regular content
+                try {
+                    const response = await fetch(`/api/book-content?id=${activeId}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        setCurrentContent(data);
+                        setOriginalContent(data.content);
+                    } else {
+                        setCurrentContent({
+                            title: "Error",
+                            content: "# Content Not Found\n\nThe requested content could not be loaded.",
+                            sections: [],
+                        });
+                    }
+                } catch (error) {
                     setCurrentContent({
                         title: "Error",
-                        content: "# Content Not Found\n\nThe requested content could not be loaded.",
+                        content: "# Error Loading Content\n\nPlease try again later.",
                         sections: [],
                     });
                 }
-            } catch (error) {
-                setCurrentContent({
-                    title: "Error",
-                    content: "# Error Loading Content\n\nPlease try again later.",
-                    sections: [],
-                });
             }
             setLoading(false);
         }
         loadContent();
-    }, [activeId]);
+    }, [activeId, isQuizChapter, session]);
 
     useEffect(() => {
         if (activeId) {
@@ -349,16 +379,31 @@ export default function BookReaderPage() {
                                     </div>
                                 )}
 
-                                <div
-                                    className="prose prose-lg max-w-none prose-headings:text-text-heading prose-p:text-text-primary prose-strong:text-pastel-coral prose-code:text-purple-600 prose-code:bg-pastel-lilac/30 prose-code:px-1 prose-code:rounded prose-a:text-pastel-sky prose-a:no-underline hover:prose-a:underline prose-li:text-text-primary"
-                                    dangerouslySetInnerHTML={{
-                                        __html: currentContent.content
-                                    }}
-                                />
+                                {/* Quiz Interface or Regular Content */}
+                                {isQuizChapter && quizData && session?.user ? (
+                                    <QuizInterface
+                                        quizId={quizData.quiz_id}
+                                        chapterId={activeId}
+                                        title={quizData.title}
+                                        description={quizData.description || "Test your knowledge!"}
+                                        questions={quizData.questions}
+                                        passingPercentage={quizData.passing_percentage || 70}
+                                        nextAttemptNumber={quizData.next_attempt_number || 1}
+                                    />
+                                ) : (
+                                    <>
+                                        <div
+                                            className="prose prose-lg max-w-none prose-headings:text-text-heading prose-p:text-text-primary prose-strong:text-pastel-coral prose-code:text-purple-600 prose-code:bg-pastel-lilac/30 prose-code:px-1 prose-code:rounded prose-a:text-pastel-sky prose-a:no-underline hover:prose-a:underline prose-li:text-text-primary"
+                                            dangerouslySetInnerHTML={{
+                                                __html: currentContent.content
+                                            }}
+                                        />
 
-                                {/* Complete Chapter Button - Only show for logged-in users */}
-                                {session?.user && (
-                                    <CompleteChapterButton chapterId={activeId} />
+                                        {/* Complete Chapter Button - Only show for logged-in users and non-quiz chapters */}
+                                        {session?.user && !isQuizChapter && (
+                                            <CompleteChapterButton chapterId={activeId} />
+                                        )}
+                                    </>
                                 )}
 
                                 {/* Navigation Buttons */}
