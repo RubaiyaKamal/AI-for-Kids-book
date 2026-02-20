@@ -79,7 +79,7 @@ export default function StudentDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pastel-pink via-pastel-mint to-pastel-blue p-8">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 p-8">
         <div className="max-w-6xl mx-auto">
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-700 mx-auto"></div>
@@ -92,7 +92,7 @@ export default function StudentDashboard() {
 
   if (error || !data) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pastel-pink via-pastel-mint to-pastel-blue p-8">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 p-8">
         <div className="max-w-6xl mx-auto">
           <div className="text-center py-12">
             <p className="text-red-600">{error || 'Failed to load dashboard'}</p>
@@ -109,7 +109,7 @@ export default function StudentDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pastel-pink via-pastel-mint to-pastel-blue p-8">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 p-8">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -203,7 +203,7 @@ export default function StudentDashboard() {
           <div className="mt-8 text-center">
             <button
               onClick={() => router.push('/book')}
-              className="px-8 py-3 bg-gradient-to-r from-pastel-purple to-pastel-blue text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all"
+              className="px-8 py-3 bg-gradient-to-r from-pastel-purple to-pastel-blue text-black font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all"
             >
               Continue Learning
             </button>
