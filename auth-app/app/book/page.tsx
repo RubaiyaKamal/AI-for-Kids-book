@@ -6,7 +6,10 @@ import RelatedSidebar from "@/components/RelatedSidebar";
 import Chatbot from "@/components/Chatbot";
 import TranslatorButton from "@/components/TranslatorButton";
 import UserMenu from "@/components/UserMenu";
+import CompleteChapterButton from "@/components/CompleteChapterButton";
 import { authClient } from "@/lib/auth-client";
+import { useProgressTracking } from "@/hooks/useProgressTracking";
+import { bookNavigation } from "@/lib/bookData";
 
 interface BookContent {
     title: string;
@@ -14,8 +17,27 @@ interface BookContent {
     sections: string[];
 }
 
+// Helper function to flatten book structure into a list of all chapter IDs
+function getAllChapterIds(): string[] {
+    const chapters: string[] = [];
+
+    function traverse(sections: any[]) {
+        for (const section of sections) {
+            if (section.type === 'doc') {
+                chapters.push(section.id);
+            }
+            if (section.items) {
+                traverse(section.items);
+            }
+        }
+    }
+
+    traverse(bookNavigation);
+    return chapters;
+}
+
 export default function BookReaderPage() {
-    const [activeId, setActiveId] = useState("intro");
+    const [activeId, setActiveId] = useState("preface/welcome-to-learn-ai-for-kids");
     const [selectedText, setSelectedText] = useState("");
     const [currentContent, setCurrentContent] = useState<BookContent>({
         title: "Loading...",
@@ -34,6 +56,10 @@ export default function BookReaderPage() {
     const [isAutoPersonalized, setIsAutoPersonalized] = useState(false);
 
     const { data: session } = authClient.useSession();
+    const allChapters = getAllChapterIds();
+
+    // Auto-track time spent reading (every 30 seconds)
+    useProgressTracking(activeId, !!session?.user);
 
 
     const handleTextSelection = () => {
@@ -162,16 +188,6 @@ export default function BookReaderPage() {
     };
 
 
-    const MODULE_1_CHAPTERS = [
-        "intro-physical-ai",
-        "embodied-intelligence",
-        "humanoid-landscape",
-        "sensor-systems"
-    ];
-
-
-
-
 
     useEffect(() => {
         async function loadContent() {
@@ -213,49 +229,9 @@ export default function BookReaderPage() {
 
 
     return (
-        <div className="h-screen flex flex-col bg-warm-white dark:bg-dark-brown">
+        <div className="h-screen flex flex-col bg-rose-50 pt-2">
             {/* Header */}
-            <header className="bg-cream dark:bg-dark-brown border-b border-dark-brown/10 dark:border-cream/10 px-6 py-4 flex-shrink-0">
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                        <a href="/" className="text-2xl font-bold text-dark-brown dark:text-cream hover:text-goldenrod transition-colors">
-                            Physical AI & Humanoid Robotics
-                        </a>
-                    </div>
-                    <div className="flex items-center space-x-6">
-                        {session ? (
-                            <UserMenu />
-                        ) : (
-                            <div className="flex items-center space-x-4">
-                                <a
-                                    href="/signup"
-                                    className="px-4 py-2 text-dark-brown dark:text-cream font-semibold rounded-lg hover:bg-goldenrod hover:text-dark-brown transition-all duration-300"
-                                >
-                                    Sign Up
-                                </a>
-                                <a
-                                    href="/signin"
-                                    className="px-4 py-2 text-dark-brown dark:text-cream font-semibold rounded-lg hover:bg-goldenrod hover:text-dark-brown transition-all duration-300"
-                                >
-                                    Sign In
-                                </a>
-                            </div>
-                        )}
-                        <a
-                            href="https://github.com/RubaiyaKamal/Book-for-project-hackathon"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center space-x-2 text-dark-brown dark:text-cream hover:text-goldenrod transition-colors"
-                            aria-label="View on GitHub"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                            </svg>
-                            <span className="font-medium">GitHub</span>
-                        </a>
-                    </div>
-                </div>
-            </header>
+
 
             {/* Main Content Area */}
             <div className="flex-1 flex overflow-hidden">
@@ -265,7 +241,7 @@ export default function BookReaderPage() {
                 </aside>
 
                 {/* Center - Book Content */}
-                <main className="flex-1 overflow-y-auto px-8 py-6 bg-cream/30 dark:bg-dark-brown" onMouseUp={handleTextSelection}>
+                <main className="flex-1 overflow-y-auto px-8 py-6 bg-rose-50" onMouseUp={handleTextSelection}>
                     <article className="max-w-4xl mx-auto">
                         {loading ? (
                             <div className="flex items-center justify-center py-20">
@@ -276,14 +252,14 @@ export default function BookReaderPage() {
                                 {/* Action Buttons Row */}
                                 <div className="mb-6 flex flex-col sm:flex-row gap-4">
                                     {/* Personalize Button */}
-                                    <div className="flex-1 flex items-center justify-between p-4 bg-goldenrod/10 dark:bg-goldenrod/5 rounded-lg border border-goldenrod/30">
+                                    <div className="flex-1 flex items-center justify-between p-4 bg-white rounded-xl border-2 border-pastel-peach shadow-sm">
                                         <div className="flex items-center space-x-3">
                                             <span className="text-2xl">✨</span>
                                             <div>
-                                                <h3 className="text-sm font-semibold text-dark-brown dark:text-cream">
+                                                <h3 className="text-sm font-bold text-text-heading">
                                                     {isPersonalized ? "Personalized for You" : "Personalize This Chapter"}
                                                 </h3>
-                                                <p className="text-xs text-dark-brown/70 dark:text-cream/70">
+                                                <p className="text-xs text-text-secondary">
                                                     {isPersonalized
                                                         ? "Content adapted to your experience level and interests"
                                                         : "Customize content based on your profile"}
@@ -292,15 +268,15 @@ export default function BookReaderPage() {
                                                 {isPersonalized && userExperienceLevel && (
                                                     <div className="mt-2">
                                                         <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${userExperienceLevel === "beginner"
-                                                            ? "bg-mint/20 text-mint border border-mint/40"
+                                                            ? "bg-pastel-mint text-emerald-700 border border-emerald-200"
                                                             : userExperienceLevel === "expert"
-                                                                ? "bg-purple-500/20 text-purple-600 dark:text-purple-400 border border-purple-500/40"
-                                                                : "bg-goldenrod/20 text-goldenrod border border-goldenrod/40"
+                                                                ? "bg-pastel-lilac text-purple-700 border border-purple-200"
+                                                                : "bg-pastel-yellow text-amber-700 border border-amber-200"
                                                             }`}>
                                                             🎓 Learning as: {userExperienceLevel.charAt(0).toUpperCase() + userExperienceLevel.slice(1)}
                                                         </span>
                                                         {isAutoPersonalized && (
-                                                            <span className="ml-2 text-xs text-mint">
+                                                            <span className="ml-2 text-xs text-pastel-mint">
                                                                 (Auto-personalized)
                                                             </span>
                                                         )}
@@ -312,7 +288,7 @@ export default function BookReaderPage() {
                                             {isPersonalized ? (
                                                 <button
                                                     onClick={handleResetContent}
-                                                    className="px-4 py-2 text-sm bg-cream dark:bg-dark-brown text-dark-brown dark:text-cream rounded-lg hover:bg-goldenrod/20 transition-colors border border-dark-brown/10 dark:border-cream/10"
+                                                    className="px-4 py-2 text-sm bg-white text-text-primary rounded-lg hover:bg-gray-50 transition-colors border border-gray-200"
                                                 >
                                                     Reset to Original
                                                 </button>
@@ -320,7 +296,7 @@ export default function BookReaderPage() {
                                                 <button
                                                     onClick={handlePersonalize}
                                                     disabled={personalizing}
-                                                    className="px-4 py-2 text-sm bg-goldenrod text-dark-brown rounded-lg hover:bg-goldenrod/90 transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                                                    className="px-6 py-2 text-sm bg-pastel-peach text-pink-500 rounded-lg hover:brightness-95 transition-all shadow-sm font-bold disabled:opacity-50 disabled:cursor-not-allowed border border-pastel-coral/30"
                                                 >
                                                     {personalizing ? "Personalizing..." : "Personalize Content"}
                                                 </button>
@@ -339,7 +315,7 @@ export default function BookReaderPage() {
                                                 }}
                                                 className="px-4 py-2 text-sm bg-cream dark:bg-dark-brown text-dark-brown dark:text-cream rounded-lg hover:bg-goldenrod/20 transition-colors border border-dark-brown/10 dark:border-cream/10 font-semibold"
                                             >
-                                                    (Reset to Original)
+                                                (Reset to Original)
                                             </button>
                                         ) : (
                                             <TranslatorButton
@@ -374,35 +350,40 @@ export default function BookReaderPage() {
                                 )}
 
                                 <div
-                                    className="prose prose-lg max-w-none prose-headings:text-dark-brown dark:prose-headings:text-cream prose-p:text-dark-brown/80 dark:prose-p:text-cream/80 prose-strong:text-goldenrod prose-code:text-mint prose-code:bg-cream dark:prose-code:bg-dark-brown/50 prose-a:text-goldenrod prose-a:no-underline hover:prose-a:underline"
+                                    className="prose prose-lg max-w-none prose-headings:text-text-heading prose-p:text-text-primary prose-strong:text-pastel-coral prose-code:text-purple-600 prose-code:bg-pastel-lilac/30 prose-code:px-1 prose-code:rounded prose-a:text-pastel-sky prose-a:no-underline hover:prose-a:underline prose-li:text-text-primary"
                                     dangerouslySetInnerHTML={{
                                         __html: currentContent.content
                                     }}
                                 />
 
+                                {/* Complete Chapter Button - Only show for logged-in users */}
+                                {session?.user && (
+                                    <CompleteChapterButton chapterId={activeId} />
+                                )}
+
                                 {/* Navigation Buttons */}
-                                <div className="mt-12 pt-6 border-t border-dark-brown/10 dark:border-cream/10 flex justify-between">
+                                <div className="mt-12 pt-6 border-t border-pastel-rose/50 flex justify-between">
                                     <button
                                         onClick={() => {
-                                            const currentIndex = MODULE_1_CHAPTERS.indexOf(activeId);
+                                            const currentIndex = allChapters.indexOf(activeId);
                                             if (currentIndex > 0) {
-                                                setActiveId(MODULE_1_CHAPTERS[currentIndex - 1]);
+                                                setActiveId(allChapters[currentIndex - 1]);
                                             }
                                         }}
-                                        disabled={MODULE_1_CHAPTERS.indexOf(activeId) === 0}
-                                        className="px-6 py-3 bg-cream dark:bg-dark-brown/50 text-dark-brown dark:text-cream rounded-lg hover:bg-goldenrod/20 transition-colors border border-dark-brown/10 dark:border-cream/10 disabled:opacity-50 disabled:cursor-not-allowed"
+                                        disabled={allChapters.indexOf(activeId) === 0}
+                                        className="px-6 py-3 bg-white text-text-primary rounded-xl hover:bg-pastel-sky/20 transition-all border-2 border-pastel-sky disabled:opacity-50 disabled:cursor-not-allowed font-medium"
                                     >
                                         ← Previous Chapter
                                     </button>
                                     <button
                                         onClick={() => {
-                                            const currentIndex = MODULE_1_CHAPTERS.indexOf(activeId);
-                                            if (currentIndex < MODULE_1_CHAPTERS.length - 1) {
-                                                setActiveId(MODULE_1_CHAPTERS[currentIndex + 1]);
+                                            const currentIndex = allChapters.indexOf(activeId);
+                                            if (currentIndex < allChapters.length - 1) {
+                                                setActiveId(allChapters[currentIndex + 1]);
                                             }
                                         }}
-                                        disabled={MODULE_1_CHAPTERS.indexOf(activeId) === MODULE_1_CHAPTERS.length - 1}
-                                        className="px-6 py-3 bg-goldenrod text-dark-brown rounded-lg hover:bg-goldenrod/90 transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                                        disabled={allChapters.indexOf(activeId) === allChapters.length - 1}
+                                        className="px-6 py-3 bg-pastel-sky text-blue-900 rounded-xl hover:brightness-95 transition-all shadow-md font-bold disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105"
                                     >
                                         Next Chapter →
                                     </button>
