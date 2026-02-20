@@ -144,7 +144,7 @@ export default function StudentDashboard() {
             icon="✅"
             value={`${data.progress.completed_chapters}/${data.progress.total_chapters_accessed}`}
             label="Chapters Completed"
-            color="bg-pastel-purple"
+            color="bg-pastel-sky"
           />
         </div>
 
