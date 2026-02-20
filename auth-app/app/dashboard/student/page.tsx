@@ -150,7 +150,7 @@ export default function StudentDashboard() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Module Progress */}
-          <div className="bg-purple-50 rounded-lg p-6 shadow-lg">
+          <div className="bg-purple-100 rounded-lg p-6 shadow-lg">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">Module Progress</h2>
             {data.module_progress.length > 0 ? (
               <div>
@@ -173,7 +173,7 @@ export default function StudentDashboard() {
           </div>
 
           {/* Quiz Performance */}
-          <div className="bg-purple-50 rounded-lg p-6 shadow-lg">
+          <div className="bg-purple-100 rounded-lg p-6 shadow-lg">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">Quiz Performance</h2>
             {data.quiz_performance.total_quizzes > 0 && (
               <div className="mb-6 p-4 bg-pastel-blue rounded-lg">
